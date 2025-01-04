@@ -1,7 +1,16 @@
-# proof of concept: go-app (SPA) client hot reload
 
-## tools
+# Proof of concept: go-app (SPA) client hot reload
 
-- [air](https://github.com/air-verse/air) for rebuild server after save source file
-- [go-app](https://github.com/maxence-charriere/go-app) for make SPA (single page app) with pure go
-- [mage](https://github.com/magefile/mage) for build command
+This project is a proof of concept demonstrating a Single Page Application (SPA) built with Go, showcasing client hot reloading capabilities.
+
+## Tools
+
+- [air](https://github.com/air-verse/air) is used for rebuilding the server upon saving a source file.
+- [go-app](https://github.com/maxence-charriere/go-app) is used for creating SPAs with pure Go.
+- [mage](https://github.com/magefile/mage) is used for build commands.
+
+## How it works
+
+1. The server exposes an endpoint `/updated` that returns the current timestamp.
+2. The client-side periodically fetches this timestamp.
+3. If the timestamp changes, it triggers a page reload.
