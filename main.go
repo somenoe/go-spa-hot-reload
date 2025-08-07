@@ -100,10 +100,44 @@ func (n *lastUpdated) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(n.timestamp))
 }
 
+// counter page component
+// New counter component implementing increment/decrement functionality
+type counter struct {
+	app.Compo
+	count int
+}
+
+func (c *counter) OnMount(ctx app.Context) {
+	c.count = 0
+}
+
+func (c *counter) Render() app.UI {
+	return app.Div().Class("m-4 p-4").Body(
+		app.H1().Text("Counter Page").Class("text-2xl font-bold mb-2"),
+		app.Div().Text(fmt.Sprintf("Count: %d", c.count)).Class("mb-2"),
+		app.Button().Text("-").OnClick(c.onDecrement).Class("px-2 py-1 bg-red-500 text-white rounded mr-2"),
+		app.Button().Text("+").OnClick(c.onIncrement).Class("px-2 py-1 bg-green-500 text-white rounded"),
+	)
+}
+
+func (c *counter) onIncrement(ctx app.Context, e app.Event) {
+	c.count++
+	ctx.Update()
+}
+
+func (c *counter) onDecrement(ctx app.Context, e app.Event) {
+	c.count--
+	ctx.Update()
+}
+
 func main() {
 
 	app.Route("/", func() app.Composer {
 		return &hello{}
+	})
+	// Register counter page route
+	app.Route("/counter", func() app.Composer {
+		return &counter{}
 	})
 	app.RunWhenOnBrowser()
 
