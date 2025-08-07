@@ -23,9 +23,10 @@ type hello struct {
 }
 
 func (h *hello) Render() app.UI {
-	return app.Div().Body(
-		app.H1().Text("VERSION: "+VERSION),
-		app.P().Text("Hello World! 😎"),
+	return app.Div().Class("m-4 p-4 bg-gray-100 rounded-lg border border-gray-200 shadow-xl").Body(
+		app.H1().Class("text-xl font-bold").Text("VERSION: "+VERSION),
+		app.Hr().Class("my-2 text-gray-400"),
+		app.P().Class("italic").Text("Hello World! 😎"),
 	)
 }
 
@@ -109,6 +110,9 @@ func main() {
 	http.Handle("/", &app.Handler{
 		Name:        "Hello",
 		Description: "An Hello World! example",
+		Scripts: []string{
+			"https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4",
+		},
 	})
 
 	http.Handle("/updated", &lastUpdated{
